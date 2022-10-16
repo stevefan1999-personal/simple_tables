@@ -7,7 +7,7 @@
 //! **Example**
 //! ```rust
 //! # use simple_tables::macros::{table_row, table};
-//!
+//! extern crate alloc;
 //! #[table_row]
 //! struct MyTableRow {
 //!   id: u32,
@@ -40,6 +40,7 @@
 //! #
 //! # #[table(rows = MyTableRow)]
 //! # struct MyTable {}
+//! extern crate alloc;
 //!
 //! let rows: Vec<MyTableRow> = vec![
 //!   MyTableRow{ id: 0, name: "David Bowie".to_string(), email: "david@bowie.com".to_string(), address: "England".to_string()},
@@ -79,6 +80,7 @@
 //! - [table_row](crate::macros::table_row)
 //! - [table](crate::macros::table)
 
+#![no_std]
 
 // Core libraries
 pub extern crate simple_tables_core as core;

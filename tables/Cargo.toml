@@ -13,10 +13,10 @@ keywords = ["tables", "table", "macros", "macro", "proc_macro"]
 categories = ["data-structures", "visualization"]
 
 [dependencies]
-simple_tables-core = "0.3.0"
-# simple_tables-core = { path = "../core" }
-simple_tables-derive = "0.3.0"
-# simple_tables-derive = { path = "../derive" }
+# simple_tables-core = "0.3.0"
+simple_tables-core = { path = "../core" }
+# simple_tables-derive = "0.3.0"
+simple_tables-derive = { path = "../derive" }
 
 # [dev-dependencies]
 # trybuild = "1.0.54"

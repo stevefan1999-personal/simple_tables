@@ -1,4 +1,11 @@
 //! Simple Tables Core
+#![cfg_attr(not(feature = "std"), no_std)]
+
+extern crate alloc;
+
+use alloc::vec::Vec;
+use alloc::string::ToString;
+use alloc::borrow::ToOwned;
 
 pub mod error;
 

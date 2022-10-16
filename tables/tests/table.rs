@@ -1,7 +1,13 @@
+extern crate alloc;
+
 mod table_trait {
     use simple_tables::macros::table;
     use simple_tables::macros::table_row;
     use simple_tables::core::Table;
+    use alloc::string::{String, ToString};
+    use alloc::vec::Vec;
+    use alloc::vec;
+
     #[test]
     fn new_is_empty() {
         #[table_row]
@@ -212,6 +218,9 @@ mod uid {
     use simple_tables::macros::table_row;
     use simple_tables::core::Table;
     use simple_tables_core::IdTable;
+    use alloc::string::{String, ToString};
+    use alloc::vec::Vec;
+    use alloc::vec;
     
     #[test]
     fn get_row() {
@@ -359,6 +368,9 @@ mod to_string {
     use simple_tables::macros::table;
     use simple_tables::macros::table_row;
     use simple_tables::core::Table;
+    use alloc::string::{String, ToString};
+    use alloc::vec::Vec;
+    use alloc::vec;
     
     #[test]
     fn to_string() {

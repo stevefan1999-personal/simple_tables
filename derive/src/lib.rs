@@ -62,8 +62,8 @@ pub fn table_row(_attrs: TokenStream, input: TokenStream) -> TokenStream {
         get_field_str_elements.push(field);
     }
     let get_field_str = quote!(
-        fn get_field_str(&self) -> Vec<String> {
-            vec![ #(#get_field_str_elements.to_string(),)* ]
+        fn get_field_str(&self) -> ::alloc::vec::Vec<::alloc::string::String> {
+            ::alloc::vec![ #(#get_field_str_elements.to_string(),)* ]
         }
     );
     TokenStream::from (
@@ -82,10 +82,10 @@ pub fn table_row(_attrs: TokenStream, input: TokenStream) -> TokenStream {
             }
             
             impl TableRowTrait for #struct_name {
-                fn get_fields() -> Vec<&'static str> {
+                fn get_fields() -> ::alloc::vec::Vec<&'static str> {
                     Self::FIELDS.to_vec()
                 }
-                fn get_field_types() -> Vec<&'static str> {
+                fn get_field_types() -> ::alloc::vec::Vec<&'static str> {
                     Self::TYPES.to_vec()
                 }
                 fn field_count() -> usize {
@@ -161,7 +161,7 @@ pub fn table(attrs: TokenStream, input: TokenStream) -> TokenStream {
     });
     
     if let Some(table_row_struct) = table_row_struct {
-        let field_to_add = quote!(rows: Vec<#table_row_struct>);
+        let field_to_add = quote!(rows: ::alloc::vec::Vec<#table_row_struct>);
         let struct_name = &item_struct.ident;
         // add field to struct
         if let syn::Fields::Named(ref mut fields) = item_struct.fields {
@@ -183,12 +183,12 @@ pub fn table(attrs: TokenStream, input: TokenStream) -> TokenStream {
             // The names of the fields
                     let field_names = dev_simple_tables_core_table_row_type::get_fields();
                     // All cells
-                    let mut row_values: Vec<Vec<String>> = Vec::new();
+                    let mut row_values: ::alloc::vec::Vec<::alloc::vec::Vec<::alloc::string::String>> = ::alloc::vec::Vec::new();
                     for row in &self.rows {
                         row_values.push(row.get_field_str());
                     }
                     // The sizes of the columns
-                    let mut column_sizes: Vec<usize> = vec![0; field_names.len()];
+                    let mut column_sizes: ::alloc::vec::Vec<usize> = vec![0; field_names.len()];
                     row_values.iter().for_each(|(row_val)| {
                         row_val.iter().enumerate().for_each(|(col, col_val)| {
                             let len = col_val.to_string().chars().count();
@@ -198,10 +198,10 @@ pub fn table(attrs: TokenStream, input: TokenStream) -> TokenStream {
                         });
                     });
                     
-                    let mut top_line: String = String::from("+-");
-                    let mut headers: String = String::from("| ");
-                    let mut bottom_line: String = String::from("+=");
-                    let mut actual_column_sizes: Vec<usize> = column_sizes.clone();
+                    let mut top_line: ::alloc::string::String = ::alloc::string::String::from("+-");
+                    let mut headers: ::alloc::string::String = ::alloc::string::String::from("| ");
+                    let mut bottom_line: ::alloc::string::String = ::alloc::string::String::from("+=");
+                    let mut actual_column_sizes: ::alloc::vec::Vec<usize> = column_sizes.clone();
                     let total_columns = column_sizes.len();
                     column_sizes.into_iter().enumerate().for_each(|(col, col_size)| {
                         let mut local_col_size = col_size.clone();
@@ -215,9 +215,9 @@ pub fn table(attrs: TokenStream, input: TokenStream) -> TokenStream {
                         } else {
                             local_col_size - field_len
                         };
-                        top_line.push_str(format!("{}-+", "-".repeat(local_col_size)).as_str());
-                        headers.push_str(format!("{}{} |", field_name, " ".repeat(left_over)).as_str());
-                        bottom_line.push_str(format!("{}=+", "=".repeat(local_col_size)).as_str());
+                        top_line.push_str(::alloc::format!("{}-+", "-".repeat(local_col_size)).as_str());
+                        headers.push_str(::alloc::format!("{}{} |", field_name, " ".repeat(left_over)).as_str());
+                        bottom_line.push_str(::alloc::format!("{}=+", "=".repeat(local_col_size)).as_str());
                         if col != total_columns - 1 {
                             top_line.push_str("-");
                             headers.push_str(" ");
@@ -226,27 +226,27 @@ pub fn table(attrs: TokenStream, input: TokenStream) -> TokenStream {
                     });
                     
                     // Adding the cells to the formatted table
-                    let mut cells: String = String::from("| ");
+                    let mut cells: ::alloc::string::String = ::alloc::string::String::from("| ");
                     row_values.into_iter().enumerate().for_each(|(row, row_val)| {
                         if row != 0 {
                             cells.push_str("\n| ");
                         }
                         row_val.into_iter().enumerate().for_each(|(col, cell_val)| {
                             let left_over = actual_column_sizes[col] - cell_val.chars().count();
-                            cells.push_str(format!("{}{} |", cell_val, " ".repeat(left_over)).as_str());
+                            cells.push_str(::alloc::format!("{}{} |", cell_val, " ".repeat(left_over)).as_str());
                             if col != total_columns - 1 {
                             cells.push_str(" ");
                         }
                         });
                         // Add horizontal line to bottom
-                        cells.push_str(format!("\n{}", top_line).as_str());
+                        cells.push_str(::alloc::format!("\n{}", top_line).as_str());
                     });
         );
         let impl_to_string = quote!(
-            impl ToString for #struct_name {
+            impl ::alloc::string::ToString for #struct_name {
                 fn to_string(&self) -> String {
                     #to_string
-                    format!("{}\n{}\n{}\n{}", top_line, headers, bottom_line, cells)
+                    ::alloc::format!("{}\n{}\n{}\n{}", top_line, headers, bottom_line, cells)
                 }
             }
         );
@@ -263,18 +263,18 @@ pub fn table(attrs: TokenStream, input: TokenStream) -> TokenStream {
             
             impl simple_tables::core::Table<#table_row_struct> for #struct_name {
                 fn new() -> #struct_name {
-                    #struct_name { rows: Vec::new() }
+                    #struct_name { rows: ::alloc::vec::Vec::new() }
                 }
                 
-                fn from_vec(vec: &Vec<#table_row_struct>) -> #struct_name {
+                fn from_vec(vec: &::alloc::vec::Vec<#table_row_struct>) -> #struct_name {
                     #struct_name { rows: vec.to_vec() }
                 }
                 
-                fn get_rows(&self) -> &Vec<#table_row_struct> {
+                fn get_rows(&self) -> &::alloc::vec::Vec<#table_row_struct> {
                     &self.rows
                 }
                 
-                fn get_rows_mut(&mut self) -> &mut Vec<#table_row_struct> {
+                fn get_rows_mut(&mut self) -> &mut ::alloc::vec::Vec<#table_row_struct> {
                     &mut self.rows
                 }
                 
@@ -293,10 +293,10 @@ pub fn table(attrs: TokenStream, input: TokenStream) -> TokenStream {
             
             #impl_to_string
             
-            impl std::fmt::Debug for #struct_name {
-                fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+            impl core::fmt::Debug for #struct_name {
+                fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
                     #to_string
-                    let output = format!("{}\n{}\n{}\n{}", top_line, headers, bottom_line, cells);
+                    let output = ::alloc::format!("{}\n{}\n{}\n{}", top_line, headers, bottom_line, cells);
                     write!(f, "{}", output)
                 }
             }

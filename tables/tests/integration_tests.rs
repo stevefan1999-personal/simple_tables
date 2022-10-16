@@ -1,3 +1,6 @@
+#![no_std]
+
+extern crate alloc;
 
 // #[test]
 // fn hello_world_fields() {

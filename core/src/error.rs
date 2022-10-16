@@ -1,11 +1,13 @@
-use std::fmt::{Debug, Display, Formatter};
+use alloc::string::String;
+
+use core::fmt::{Debug, Display, Formatter};
 
 pub enum TableErrorKind {
     CouldNotRemove
 }
 
 impl Debug for TableErrorKind {
-    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+    fn fmt(&self, f: &mut Formatter<'_>) -> core::fmt::Result {
         match self {
             Self::CouldNotRemove => write!(f, "CouldNotRemove")
         }
@@ -13,7 +15,7 @@ impl Debug for TableErrorKind {
 }
 
 impl Display for TableErrorKind {
-    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+    fn fmt(&self, f: &mut Formatter<'_>) -> core::fmt::Result {
         write!(f, "{:?}", self)
     }
 }
@@ -24,15 +26,16 @@ pub struct TableError {
 }
 
 impl Display for TableError {
-    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+    fn fmt(&self, f: &mut Formatter<'_>) -> core::fmt::Result {
         write!(f, "{}", self.message)
     }
 }
 
 impl Debug for TableError {
-    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+    fn fmt(&self, f: &mut Formatter<'_>) -> core::fmt::Result {
         write!(f, "{}: {}", self.kind, self.message)
     }
 }
 
+#[cfg(feature = "std")]
 impl std::error::Error for TableError {}

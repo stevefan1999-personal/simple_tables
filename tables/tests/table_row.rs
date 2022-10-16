@@ -1,4 +1,9 @@
+extern crate alloc;
+
 mod field_names {
+    use alloc::string::{String, ToString};
+    use alloc::vec;
+
     #[test]
     fn const_fields() {
         use simple_tables::macros::table_row;
@@ -48,6 +53,8 @@ mod field_names {
 }
 
 mod field_types {
+    use alloc::string::{String, ToString};
+
     #[test]
     fn field_types() {
         use simple_tables::macros::table_row;
@@ -80,6 +87,9 @@ mod field_types {
 
 mod other_methods {
     use simple_tables::macros::table_row;
+    use alloc::string::{String, ToString};
+    use alloc::vec;
+
     #[test]
     fn to_string() {
         #[table_row]

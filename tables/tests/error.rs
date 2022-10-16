@@ -1,5 +1,9 @@
+extern crate alloc;
+
 mod error {
     use simple_tables::error::*;
+    use alloc::string::ToString;
+    use alloc::format;
     
     #[test]
     fn display() {
@@ -25,6 +29,8 @@ mod error {
 
 mod kind {
     use simple_tables::error::*;
+    use alloc::string::ToString;
+    use alloc::format;
     
     #[test]
     fn dbg() {
