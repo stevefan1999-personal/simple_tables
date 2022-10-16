@@ -188,7 +188,7 @@ pub fn table(attrs: TokenStream, input: TokenStream) -> TokenStream {
                         row_values.push(row.get_field_str());
                     }
                     // The sizes of the columns
-                    let mut column_sizes: ::alloc::vec::Vec<usize> = vec![0; field_names.len()];
+                    let mut column_sizes: ::alloc::vec::Vec<usize> = ::alloc::vec![0; field_names.len()];
                     row_values.iter().for_each(|(row_val)| {
                         row_val.iter().enumerate().for_each(|(col, col_val)| {
                             let len = col_val.to_string().chars().count();
